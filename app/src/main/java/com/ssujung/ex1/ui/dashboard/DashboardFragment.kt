@@ -38,18 +38,32 @@ class DashboardFragment : Fragment() {
 
         initRecyclerView()
 
-        pokeViewModel.getPokeList()
+        requestData()
 
-        pokeViewModel.showLoadingView.observe(this, Observer {
-            progressBar?.visibility = if (it) View.VISIBLE else View.INVISIBLE
-        })
+//        pokeViewModel.showLoadingView.observe(this, Observer {
+//            progressBar?.visibility = if (it) View.VISIBLE else View.INVISIBLE
+//        })
         pokeViewModel.pokeList.observe(this, Observer {
+            hideLoadingView()
             adapter.submitList(it)
         })
+    }
+
+    private fun requestData() {
+        showLoadingView()
+        pokeViewModel.getPokeList()
     }
 
     private fun initRecyclerView() {
         recyclerView?.adapter = adapter
         recyclerView?.layoutManager = LinearLayoutManager(activity)
+    }
+
+    private fun showLoadingView() {
+        progressBar?.visibility = View.VISIBLE
+    }
+
+    private fun hideLoadingView() {
+        progressBar?.visibility = View.GONE
     }
 }

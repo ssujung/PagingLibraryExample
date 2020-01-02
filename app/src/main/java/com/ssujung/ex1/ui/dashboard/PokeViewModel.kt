@@ -33,12 +33,10 @@ class PokeViewModel : ViewModel() {
         get() = _showLoadingView
 
     fun getPokeList() {
-        _showLoadingView.postValue(true)
+//        _showLoadingView.postValue(true)
         RxPagedListBuilder(dataSourceFactory, pagedListConfig).buildObservable()
             .observeOn(AndroidSchedulers.mainThread())
-            .doFinally {
-                _showLoadingView.postValue(false)
-            }.subscribe(
+            .subscribe(
                 {
                     _pokeList.postValue(it)
                 },
